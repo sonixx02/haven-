@@ -27,6 +27,9 @@ const Navbar = () => {
   const handleComplaint=()=>{
     navigate('/complain')
   }
+  const handleDatabase=()=>{
+    navigate('/database')
+  }
   const handlePro=()=>{
     navigate('/profile')
   }
@@ -41,6 +44,7 @@ const Navbar = () => {
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleDash}>Dashboard</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleComplaint}>Post a Complaint</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' >Community Forum</li>
+          <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleDatabase} >Database</li>
         </ul>
         {!user ? 
         <div className='my-3 gap-4 hidden md:block '>

@@ -20,6 +20,8 @@ import Profile from "./components/profile";
 import { useState } from "react";
 import { auth } from "../firebase";
 import LandingPage from "./components/Landingpage";
+import Table1 from "./components/Tables/Table";
+
 
 function App() {
   const [user, setUser] = useState();
@@ -44,6 +46,7 @@ function App() {
               <Route path="/home" element={<LandingPage/>}></Route>
               <Route path="/dashboard" element={<Dashboard/>}></Route>
               <Route path="/complain" element={<Complaint/>}></Route>
+              <Route path='/database' element={<Table1 />}></Route>
             </Routes>
             <ToastContainer />
           </div>
