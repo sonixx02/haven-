@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import './index.css'; // Adjust the path if necessary
-
+import Dashboard from "./components/pages/Dashboard";
+import Complaint from "./components/pages/Complaint";
 import {
   BrowserRouter as Router,
   Routes,
@@ -41,6 +42,8 @@ function App() {
               <Route path="/register" element={<SignUp />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/home" element={<LandingPage/>}></Route>
+              <Route path="/dashboard" element={<Dashboard/>}></Route>
+              <Route path="/complain" element={<Complaint/>}></Route>
             </Routes>
             <ToastContainer />
           </div>
