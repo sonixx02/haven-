@@ -8,6 +8,7 @@ import {
   CardTitle,
   CardFooter
 } from "@/components/ui/card";
+import { LineChartComp } from '../shared/LineChartComp';
 import { DollarSign, EyeIcon, Receipt, ReceiptIcon, User, Users2 } from 'lucide-react';
 import { TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis ,YAxis} from "recharts";
@@ -99,10 +100,10 @@ const Dashboard = () => {
 
         {/* Area Chart Component */}
         <div className="mt-8 flex justify-between">
-        <div className='w-[45%]'>
-            hii
+        <div className='w-[48%]'>
+           <LineChartComp/>
         </div>
-        <div className='w-[45%]'>
+        <div className='w-[48%]'>
         <Card>
       <CardHeader>
         <CardTitle>Area Chart - Axes</CardTitle>

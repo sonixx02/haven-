@@ -21,6 +21,7 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import LandingPage from "./components/Landingpage";
 
+
 function App() {
   const [user, setUser] = useState();
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
               <Route path="/home" element={<LandingPage/>}></Route>
               <Route path="/dashboard" element={<Dashboard/>}></Route>
               <Route path="/complain" element={<Complaint/>}></Route>
+             
             </Routes>
             <ToastContainer />
           </div>
