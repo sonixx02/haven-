@@ -27,7 +27,8 @@ function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Login</h3>
+      <div className="w-4/12 mx-auto my-8 shadow-md p-4">
+      <h3 className="text-2xl font-semibold">Login</h3>
 
       <div className="mb-3">
         <label>Email address</label>
@@ -60,6 +61,7 @@ function Login() {
         New user <a href="/register">Register Here</a>
       </p>
       <SignInwithGoogle/>
+      </div>
     </form>
   );
 }
