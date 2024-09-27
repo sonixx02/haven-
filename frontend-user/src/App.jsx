@@ -1,10 +1,14 @@
-import { Button } from "@/components/ui/button"
+import HereMap from './components/RouteMap';
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <Button className = "bg-red-400">Click me</Button>
-  
+    <div className="App">
+      <HereMap 
+        apiKey='0dTJ0gdlk6g9m0jMNs7hs4297YJWc3l2wlx9x7qm9Ls'
+        destination="18.520430,73.856743" // Example: New York City coordinates
+      />
     </div>
-  )
+  );
 }
+
+export default App;
