@@ -6,6 +6,8 @@
     "express": "^4.21.0",
     "mongoose": "^8.7.0",
     "mongose": "^0.0.2-security",
-    "nodemon": "^3.1.7"
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "toastify": "^2.0.1"
   }
 }

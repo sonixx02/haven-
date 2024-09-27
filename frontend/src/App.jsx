@@ -4,6 +4,7 @@ import "./App.css";
 import './index.css'; // Adjust the path if necessary
 import Dashboard from "./components/pages/Dashboard";
 import Complaint from "./components/pages/Complaint";
+import Community from "./components/pages/community";
 import {
   BrowserRouter as Router,
   Routes,
@@ -45,7 +46,11 @@ function App() {
               <Route path="/home" element={<LandingPage/>}></Route>
               <Route path="/dashboard" element={<Dashboard/>}></Route>
               <Route path="/complain" element={<Complaint/>}></Route>
+<<<<<<< Updated upstream
              
+=======
+              <Route path="/community" element={<Community/>}></Route>
+>>>>>>> Stashed changes
             </Routes>
             <ToastContainer />
           </div>
