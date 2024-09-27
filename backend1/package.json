@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongose": "^0.0.2-security",
+    "nodemon": "^3.1.7"
+  }
+}
