@@ -12,6 +12,8 @@ const HereMaps = () => {
   const [navigationInstructions, setNavigationInstructions] = useState([]); // State for navigation instructions
   const HERE_API_KEY = "mMN6QckgeTEUXfQPmWvFOKgr9AiuefC4AZ8Lj-OGUJg"; // Replace with your actual API key
 
+  
+
   useEffect(() => {
     // Load the HERE Maps script
     const script = document.createElement("script");
@@ -247,6 +249,7 @@ const HereMaps = () => {
     if (result.routes && result.routes.length > 0) {
       // Store routes in state
       setRoutes(result.routes);
+      
 
       // Clear previous route markers from the map
       map.removeObjects(
