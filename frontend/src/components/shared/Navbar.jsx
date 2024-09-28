@@ -30,6 +30,9 @@ const Navbar = () => {
   const handlePro=()=>{
     navigate('/profile')
   }
+  const handleroutes=()=>{
+    navigate('/routemaps')
+  }
   return (
     <div className='bg-[#E6E6E6] shadow-black'>
     <div className='flex justify-between w-11/12 mx-auto'>
@@ -41,6 +44,7 @@ const Navbar = () => {
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleDash}>Dashboard</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleComplaint}>Post a Complaint</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' >Community Forum</li>
+          <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleroutes}>Routes</li>
         </ul>
         {!user ? 
         <div className='my-3 gap-4 hidden md:block '>
