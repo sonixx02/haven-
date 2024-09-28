@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../shared/Navbar';
+import axios from 'axios'
 import {
   Card,
   CardContent,
@@ -23,13 +24,26 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
+const [data,setData] = React.useState([]);
+
+const getData=async()=>{
+  try {
+    const res = await axios.get("http://localhost:4000/api/firs/lastTwoYears")
+    setData(res)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "2022",
     color: "hsl(var(--chart-1))",
   },
   mobile: {
-    label: "Mobile",
+    label: "2023",
     color: "hsl(var(--chart-2))",
   },
 };
@@ -115,7 +129,7 @@ const Dashboard = () => {
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               left: -20,
               right: 12,
@@ -137,7 +151,7 @@ const Dashboard = () => {
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Area
-              dataKey="mobile"
+              dataKey="2022"
               type="natural"
               fill="var(--color-mobile)"
               fillOpacity={0.4}
@@ -145,7 +159,7 @@ const Dashboard = () => {
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="2023"
               type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
