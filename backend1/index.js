@@ -3,16 +3,18 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const axios = require('axios');
-
-require('dotenv').config(); // 
-
+const complaintRoutes = require('./routes/complainRoutes');
+const path = require('path');
 const app = express();
 const port = 3001;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploaded files
 
 const OPENCAGE_API_KEY = 'fb95d3f1d839476f8d8fc209dd4a0aa0'; // Replace with your OpenCage API key
 
@@ -65,8 +67,9 @@ app.post('/api/get-destination', async (req, res) => {
 
 
 app.use('/api/users', userRoutes);
+app.use('/api/complaints', complaintRoutes);
 // MongoDB connection
-mongoose.connect("mongodb+srv://atharvayadav11:ashokvaishali@cluster0.twnwnbu.mongodb.net/ApniSehatDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://atharvayadav11:ashokvaishali@cluster0.twnwnbu.mongodb.net/AapkaRakshaDB?retryWrites=true&w=majority")
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 

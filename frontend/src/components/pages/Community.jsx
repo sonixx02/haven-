@@ -1,212 +1,118 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button"; 
-import { Input } from "@/components/ui/input";
-import * as Dialog from '@radix-ui/react-dialog';
+import React, { useState, useEffect } from 'react';
+import Navbar from '../shared/Navbar';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "../ui/dialog";
+import { ArrowBigDown, ArrowBigUp, MessageSquare } from 'lucide-react';
 
-function Community({ incident }) {
-  const [upvotes, setUpvotes] = useState(incident.upvotes);
-  const [downvotes, setDownvotes] = useState(incident.downvotes);
-  const [comments, setComments] = useState(incident.comments);
+const Community = () => {
+  const [complaints, setComplaints] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [feedback, setFeedback] = useState(incident.feedback);
-  const [showDetails, setShowDetails] = useState(false); 
-  const [userVote, setUserVote] = useState(null); 
 
-  const handleUpvote = () => {
-    if (userVote === 'upvoted') {
-      
-      setUserVote(null);
-      setUpvotes(upvotes - 1);
-    } else {
-      
-      if (userVote === 'downvoted') {
-        setUserVote('upvoted');
-        setDownvotes(downvotes - 1);
-        setUpvotes(upvotes + 1);
-      } else {
-       
-        setUserVote('upvoted');
-        setUpvotes(upvotes + 1);
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/complaints'); // Adjust this URL as necessary
+        const data = await response.json();
+        setComplaints(data);
+      } catch (error) {
+        console.error("Error fetching complaints:", error);
       }
-    }
+    };
+
+    fetchComplaints();
+  }, []);
+
+  const handleUpvote = (id) => {
+    setComplaints(complaints.map(complaint => 
+      complaint._id === id ? { ...complaint, upvotes: complaint.upvotes + 1 } : complaint
+    ));
   };
 
-  const handleDownvote = () => {
-    if (userVote === 'downvoted') {
-     
-      setUserVote(null);
-      setDownvotes(downvotes - 1);
-    } else {
-     
-      if (userVote === 'upvoted') {
-        setUserVote('downvoted');
-        setUpvotes(upvotes - 1);
-        setDownvotes(downvotes + 1);
-      } else {
-       
-        setUserVote('downvoted');
-        setDownvotes(downvotes + 1);
-      }
-    }
+  const handleDownvote = (id) => {
+    setComplaints(complaints.map(complaint => 
+      complaint._id === id ? { ...complaint, downvotes: complaint.downvotes + 1 } : complaint
+    ));
   };
 
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      setComments([
-        ...comments,
-        {
-          id: comments.length + 1,
-          content: newComment,
-          user: "Anonymous User",
-        },
-      ]);
-      setNewComment("");
-    }
+  const handleAddComment = (id) => {
+    if (newComment.trim() === "") return;
+
+    const comment = { user: "User", text: newComment, time: new Date().toISOString() };
+    setComplaints(complaints.map(complaint => 
+      complaint._id === id ? { ...complaint, comments: [...complaint.comments, comment] } : complaint
+    ));
+    setNewComment("");
   };
 
-  const handleEditComment = (id, newContent) => {
-    setComments(
-      comments.map((comment) =>
-        comment.id === id ? { ...comment, content: newContent } : comment
-      )
-    );
-    setEditingCommentId(null);
-  };
-
-  const handleDeleteComment = (id) => {
-    setComments(comments.filter((comment) => comment.id !== id));
-  };
-
-  const handleStartEditing = (id) => {
-    setEditingCommentId(id);
-  };
-
-  const handleFeedbackChange = (field, value) => {
-    setFeedback({
-      ...feedback,
-      [field]: value,
-    });
+  const dateDifference = (providedDate) => {
+    const currentDate = new Date();
+    const givenDate = new Date(providedDate);
+    const differenceInMilliseconds = currentDate - givenDate;
+    const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+    return differenceInDays === 0 ? 'Today' : `${differenceInDays} days ago`;
   };
 
   return (
-    <div className="border p-4 rounded-md mb-4">
-      <h2 className="text-xl font-bold">{incident.title}</h2>
-      <p className="text-gray-600">{incident.location}</p>
-
-      <div className="flex space-x-2 mb-4">
-        <Button variant="outline" onClick={handleUpvote}>
-          Upvote ({upvotes})
-        </Button>
-        <Button variant="outline" onClick={handleDownvote}>
-          Downvote ({downvotes})
-        </Button>
+    <div>
+      <Navbar />
+      <div className='mx-9 my-2'>
+        <h1 className='font-semibold text-xl'>Recent complaints in your area:</h1>
       </div>
-
-      <Dialog.Root open={showDetails} onOpenChange={setShowDetails}>
-        <Dialog.Trigger asChild>
-          <Button variant="outline">View Details</Button>
-        </Dialog.Trigger>
-
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-          <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg w-96">
-            <Dialog.Title className="text-xl font-bold">{incident.title}</Dialog.Title>
-            <Dialog.Description className="text-gray-600 mb-4">{incident.description}</Dialog.Description>
-
-            {/* Comments Section */}
-            <div className="my-2">
-              <h3 className="text-lg font-bold">Comments</h3>
-              {comments.map((comment) => (
-                <div key={comment.id} className="border-b py-1 flex justify-between">
-                  {editingCommentId === comment.id ? (
-                    <Input
-                      defaultValue={comment.content}
-                      onBlur={(e) => handleEditComment(comment.id, e.target.value)}
-                      autoFocus
-                    />
-                  ) : (
-                    <p>
-                      {comment.content} -{" "}
-                      <span className="text-sm text-gray-500">by {comment.user}</span>
-                    </p>
-                  )}
-                  <div className="space-x-2">
-                    <Button variant="link" onClick={() => handleStartEditing(comment.id)}>
-                      Edit
-                    </Button>
-                    <Button variant="link" onClick={() => handleDeleteComment(comment.id)} color="red">
-                      Delete
-                    </Button>
+      <div className='mx-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
+        {complaints.map((complaint) => (
+          <Dialog key={complaint._id}>
+            <DialogTrigger>
+              <div className="max-w-3/12 p-6 border-gray-200 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
+                <div className='flex w-full mx-2 justify-between mb-2'>
+                  <p className='text-gray-500'>{dateDifference(complaint.createdAt.$date)}</p>
+                </div>
+                <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{complaint.category}</h5>
+                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  {complaint.description.slice(0, 120)}...
+                </p>
+                <div className='flex justify-between mt-2'>
+                  <div className='flex'>
+                    <ArrowBigUp onClick={() => handleUpvote(complaint._id)} />
+                    <p className='mr-3'>{complaint.upvotes}</p>
+                    <ArrowBigDown onClick={() => handleDownvote(complaint._id)} />
+                    <p className='mr-3'>{complaint.downvotes}</p>
+                    <MessageSquare className='h-5' />
+                    {complaint.comments.length}
                   </div>
                 </div>
-              ))}
-
-              <div className="mt-2">
-                <Input
-                  type="text"
-                  placeholder="Add a comment"
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{complaint.category}</h5>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{complaint.description}</p>
+              <div className='flex mt-2'>
+                <Input 
+                  placeholder='Add a comment..' 
                   value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
+                  onChange={(e) => setNewComment(e.target.value)} 
                 />
-                <Button onClick={handleAddComment} className="mt-2">
-                  Submit
+                <Button 
+                  className='w-3 bg-[#D5DDDA]' 
+                  variant='outlined' 
+                  onClick={() => handleAddComment(complaint._id)}
+                >
+                  +
                 </Button>
               </div>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="text-lg font-bold">Safety Feedback</h3>
-              <div className="my-2">
-                <label>Lighting (1-5): {feedback.lighting}/5</label>
-                <Input
-                  type="number"
-                  value={feedback.lighting}
-                  onChange={(e) => handleFeedbackChange("lighting", +e.target.value)}
-                  min={1}
-                  max={5}
-                />
-              </div>
-              <div className="my-2">
-                <label>Police Presence (1-5): {feedback.policePresence}/5</label>
-                <Input
-                  type="number"
-                  value={feedback.policePresence}
-                  onChange={(e) => handleFeedbackChange("policePresence", +e.target.value)}
-                  min={1}
-                  max={5}
-                />
-              </div>
-              <div className="my-2">
-                <label>Crowd Level (1-5): {feedback.crowdLevel}/5</label>
-                <Input
-                  type="number"
-                  value={feedback.crowdLevel}
-                  onChange={(e) => handleFeedbackChange("crowdLevel", +e.target.value)}
-                  min={1}
-                  max={5}
-                />
-              </div>
-              <div className="my-2">
-                <label>Safe at Night (1-5): {feedback.safeAtNight}/5</label>
-                <Input
-                  type="number"
-                  value={feedback.safeAtNight}
-                  onChange={(e) => handleFeedbackChange("safeAtNight", +e.target.value)}
-                  min={1}
-                  max={5}
-                />
-              </div>
-            </div>
-
-            <Dialog.Close asChild>
-              <Button variant="outline" className="mt-4">
-                Close
-              </Button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+              {complaint.comments.map((comment, index) => (
+                <div key={index} className='w-full h-8 bg-[#dbe0de] rounded-sm mt-2'>
+                  <p className='mt-2 mx-2'>{typeof comment === 'string' ? comment : comment.text}</p>
+                </div>
+              ))}
+            </DialogContent>
+          </Dialog>
+        ))}
+      </div>
     </div>
   );
 }

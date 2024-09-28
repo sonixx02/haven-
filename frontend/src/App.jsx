@@ -4,6 +4,7 @@ import "./App.css";
 import './index.css'; // Adjust the path if necessary
 import Dashboard from "./components/pages/Dashboard";
 import Complaint from "./components/pages/Complaint";
+import Community from "./components/pages/community";
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,6 +22,8 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import LandingPage from "./components/Landingpage";
 import HereMaps from "./components/pages/HereMaps";
+import Table1 from "./components/Tables/Table";
+
 
 
 function App() {
@@ -48,6 +51,9 @@ function App() {
               <Route path="/complain" element={<Complaint/>}></Route>
               <Route path="/routemaps" element={<HereMaps/>} ></Route>
              
+              <Route path='/database' element={<Table1 />}></Route>
+              <Route path="/community" element={<Community/>}></Route>
+
             </Routes>
             <ToastContainer />
           </div>
