@@ -31,7 +31,7 @@ const Navbar = () => {
     navigate('/database')
   }
   const handleComm=()=>{
-    navigate('/community')
+    navigate('/incidents')
   }
   const handleroutes=()=>{
     navigate('/routemaps')

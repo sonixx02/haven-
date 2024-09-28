@@ -1,12 +1,18 @@
 import React from 'react';
-import Navbar from '../shared/Navbar';
+import Navbar from '../shared/Navbar'
+import SplineEmbed from '../../SplineEmbed';
 
-const Home = () => {
+
+const Home= () => {
   return (
     <div>
       <Navbar/>
+      <main>
+     <SplineEmbed/>
+    </main>
+
     </div>
   );
 }
 
-export default Home;
+export default Home;

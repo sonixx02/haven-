@@ -7,6 +7,8 @@ const complaintRoutes = require('./routes/complainRoutes');
 const path = require('path');
 const app = express();
 const port = 3001;
+const axios = require('axios')
+const Complaint = require('./models/complaint');
 
 // Middleware
 app.use(cors());
@@ -65,6 +67,34 @@ app.post('/api/get-destination', async (req, res) => {
   }
 });
 
+app.post('/api/toggleVerification/:id', async (req, res) => {
+  const { id } = req.params; // Extract id from route parameters
+
+  try {
+    // Find the complaint by ID and toggle the isVerified field
+    const complaint = await Complaint.findById(id);
+
+    if (!complaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    // Toggle the isVerified field
+    complaint.isVerified = !complaint.isVerified;
+
+    // Save the updated complaint
+    await complaint.save();
+
+    // Respond with the updated complaint
+    return res.status(200).json({
+      message: `Verification status updated successfully.`,
+      updatedComplaint: complaint,
+    });
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
 
 app.use('/api/users', userRoutes);
 app.use('/api/complaints', complaintRoutes);

@@ -1,11 +1,17 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../components/Navbar/Navbar'
+import SplineEmbed from './SplineEmbed';
 
-function Hero() {
-    return (
-        <div>
 
-        </div>
-    )
+const Hero = () => {
+  return (
+    <div>
+      <main>
+     <SplineEmbed/>
+    </main>
+
+    </div>
+  );
 }
 
-export default Hero
+export default Hero;

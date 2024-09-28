@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Navbar from "../shared/Navbar";
 
 const HereMaps = () => {
   const mapRef = useRef(null);
@@ -343,6 +344,9 @@ const HereMaps = () => {
   };
 
   return (
+    <>
+    <Navbar />
+   
     <div className="flex">
       {/* Left Panel */}
       <div className="w-[40%] h-screen p-6 overflow-y-auto">
@@ -446,6 +450,7 @@ const HereMaps = () => {
       {/* Right Map Section */}
       <div className="w-[60%] h-screen" ref={mapRef}></div>
     </div>
+    </>
   );
 };
 

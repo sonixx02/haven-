@@ -96,3 +96,4 @@ async function analyzeComplaintWithGemini(description, imagePath) {
     return { error: error.message };  // Return error as part of the analysis result
   }
 }
+

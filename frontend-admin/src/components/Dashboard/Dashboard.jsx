@@ -59,37 +59,22 @@ export function Dashboard() {
                 Dashboard
               </NavLink>
               <NavLink
-                to='/dashboard/all-stories'
+                to='/dashboard/incident-reports'
                 className={({ isActive }) => "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary " + (isActive ? " bg-muted" : " text-muted-foreground")}
               >
                 <ShoppingCart className="h-4 w-4" />
-                All Stories
+                Incident-Reports
               </NavLink>
               <NavLink
-                to='/dashboard/my-stories'
+                to='/dashboard/table2'
                 className={({ isActive }) => "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary " + (isActive ? " bg-muted" : " text-muted-foreground")}
               >
                 <Package className="h-4 w-4" />
-                My Stories
+                Tables
               </NavLink>
             </nav>
           </div>
-          <div className="mt-auto p-4">
-            <Card x-chunk="dashboard-02-chunk-0">
-              <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+         
         </div>
       </div>
       <div className="flex flex-col">
@@ -112,7 +97,7 @@ export function Dashboard() {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Kahani.</span>
+                  <span className="sr-only">AapkaRakshak</span>
                 </Link>
                 <NavLink
                 to="/dashboard"
@@ -126,18 +111,18 @@ export function Dashboard() {
                 Dashboard
               </NavLink>
                 <NavLink
-                to='/dashboard/all-stories'
+                to='/dashboard/incident-reports'
                 className={({ isActive }) => "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary " + (isActive ? " bg-muted" : " text-muted-foreground")}
               >
                 <ShoppingCart className="h-4 w-4" />
-                All Stories
+                Incident Reports
               </NavLink>
                 <NavLink
-                to='/dashboard/my-stories'
+                to='/dashboard/table2'
                 className={({ isActive }) => "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary " + (isActive ? " bg-muted" : " text-muted-foreground")}
               >
                 <Package className="h-4 w-4" />
-                My Stories
+                Tables
               </NavLink>
               </nav>
               <div className="mt-auto">
@@ -165,20 +150,7 @@ export function Dashboard() {
               </div>
             </form>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full border-2 border-purple-300 bg-purple-100">
-                <CircleUser className="h-5 w-5 " />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick = {handleLogout}>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          
         </header>
 
         {<Outlet context={{ isLoading, setIsLoading }} />}
