@@ -30,8 +30,8 @@ const Navbar = () => {
   const handleDatabase=()=>{
     navigate('/database')
   }
-  const handlePro=()=>{
-    navigate('/profile')
+  const handleComm=()=>{
+    navigate('/community')
   }
   const handleroutes=()=>{
     navigate('/routemaps')
@@ -46,7 +46,7 @@ const Navbar = () => {
         <ul className='flex py-4 mx-4'>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleDash}>Dashboard</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleComplaint}>Post a Complaint</li>
-          <li className='px-4 text-l font-semibold  hover:underline hidden md:block' >Community Forum</li>
+          <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleComm}>Community Forum</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleroutes}>Routes</li>
           <li className='px-4 text-l font-semibold  hover:underline hidden md:block' onClick={handleDatabase} >Database</li>
         </ul>

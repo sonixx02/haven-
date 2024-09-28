@@ -11,7 +11,6 @@ import {
   ShoppingCart,
   Users,
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -29,23 +28,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useAuthContext } from "@/hooks/useAuthContext"
-import { useLogout } from "@/hooks/useLogout"
 import { useContext, useState } from "react"
 
 
 export function Dashboard() {
   
-  const { user } = useAuthContext();
-  const username  = user.username
-  const { logout } = useLogout();
-
   const [isLoading , setIsLoading] = useState(false);
 
-  const handleLogout = () => {
-    logout()
-  }
-  
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] pb-16 pt-1">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -53,7 +42,7 @@ export function Dashboard() {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">Welcome, {username}</span>
+              <span className="">Welcome, Om</span>
             </Link>
           </div>
           <div className="flex-1">

@@ -1,9 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import Layout from './Layout.jsx'
+import { Dashboard } from './components/Dashboard/Dashboard.jsx'
 import './index.css'
 import {ClerkProvider} from '@clerk/clerk-react'
-import { createBrowserRouter, createRoutesFromElements,Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements,Route, RouterProvider } from 'react-router-dom'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import Hero from './components/Hero.jsx'
+import Home from './components/Dashboard/Home.jsx'
+import IncidentReports from './components/Dashboard/IncidentReports.jsx'
+import Table2 from './components/Dashboard/Table2.jsx'
+
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -14,15 +21,12 @@ if (!PUBLISHABLE_KEY) {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
-      <Route index element={<PublicRoutes> <Home /> </PublicRoutes>} />
-      <Route path='dashboard' element={<ProtectedRoutes> <Dashboard /> </ProtectedRoutes>}>
-        <Route path='' element={<CreateStory />}/>
-        <Route path='all-stories' element={<AllStories />}/>
-        <Route path='story/:id' element={<Story />}/>
-        <Route path='my-stories' element={<MyStories />}/>
+      <Route index element={<SignedOut> <Hero /> </SignedOut>} />
+      <Route path='dashboard' element={<SignedIn> <Dashboard /> </SignedIn>}>
+        <Route path='' element={<Home />}/>
+        <Route path='all-stories' element={<IncidentReports />}/>
+        <Route path='story/:id' element={<Table2 />}/>
       </Route>
-      <Route path='/login' element = {<PublicRoutes> <Login /> </PublicRoutes>} />
-      <Route path='/signup' element = {<PublicRoutes> <SignUp /> </PublicRoutes>} />
     </Route>
     
   )
@@ -31,7 +35,7 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ClerkProvider publishableKey= {PUBLISHABLE_KEY} afterSignOutUrl='/'>
-      <App />
+      <RouterProvider router={router} />
     </ClerkProvider>
   </StrictMode>,
 )

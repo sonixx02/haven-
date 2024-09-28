@@ -24,16 +24,7 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
-const [data,setData] = React.useState([]);
 
-const getData=async()=>{
-  try {
-    const res = await axios.get("http://localhost:4000/api/firs/lastTwoYears")
-    setData(res)
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 
 
@@ -113,75 +104,17 @@ const Dashboard = () => {
         </div>
 
         {/* Area Chart Component */}
-        <div className="mt-8 flex justify-between">
+        <div className="mt-8 flex justify-between mb-10">
         <div className='w-[48%]'>
            <LineChartComp/>
         </div>
-        <div className='w-[48%]'>
-        <Card>
-      <CardHeader>
-        <CardTitle>Area Chart - Axes</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={data}
-            margin={{
-              left: -20,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickCount={3}
-            />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Area
-              dataKey="2022"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="2023"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter>
-    </Card>
+        <div className='w-[48%] '>
+        <iframe
+        src="/maharashtra_heatmap.html"
+        title="Maharashtra Heatmap"
+        style={{ border: 'none', width: '100%', height: '100%' }}
+        className='rounded-lg'
+      />
     </div>
         </div>
       </div>
