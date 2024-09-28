@@ -31,15 +31,20 @@ User Interface
 
 ![Screenshot 2024-09-28 140652 1](https://github.com/user-attachments/assets/bb2ee94a-f184-4f7f-b196-0e61fdcbd433)
 
-5.
-![Screenshot 2024-09-28 140721 1](https://github.com/user-attachments/assets/393e8033-471b-48b3-8d12-20273ac88569)
 
-![Screenshot 2024-09-28 141002 1](https://github.com/user-attachments/assets/b1fd25f4-10d2-44d6-8187-accc36bfeb39)
-
+Admin Side Features 
 ![Screenshot 2024-09-28 140859 1](https://github.com/user-attachments/assets/e1379434-555c-4368-8a97-10844ffa9c2e)
 
+5.Real Time data of around 3000 criminal incidents accross india this data is webscraped from oficial govt sources
+![Screenshot 2024-09-28 140721 1](https://github.com/user-attachments/assets/393e8033-471b-48b3-8d12-20273ac88569)
+
+6. Interractive Admin/Authorities Dashboard where they would get an overview of the crimes happening arround the city, heat maps, and many more parameters
+![Screenshot 2024-09-28 141002 1](https://github.com/user-attachments/assets/b1fd25f4-10d2-44d6-8187-accc36bfeb39)
+
+7. Detailed PDF of the crime and criminal
 ![Screenshot 2024-09-28 141154 1](https://github.com/user-attachments/assets/fa3066c9-3c45-4cc6-a083-070d2ea779a5)
 
+8. This feature is one of our USP, here the authorities can provide a photo of a person and our train AI model analysis our dataset and provides all the previous criminal records of that criminal
 ![Screenshot 2024-09-28 141039 1](https://github.com/user-attachments/assets/7d37c55f-3629-465c-a286-f8c36ada613f)
 
 ![Uploading Screenshot 2024-09-28 141257[1].png…]()
