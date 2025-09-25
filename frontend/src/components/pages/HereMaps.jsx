@@ -12,6 +12,7 @@ const HereMaps = () => {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(null); // State for selected route
   const [navigationInstructions, setNavigationInstructions] = useState([]); // State for navigation instructions
   const HERE_API_KEY = "mMN6QckgeTEUXfQPmWvFOKgr9AiuefC4AZ8Lj-OGUJg"; // Replace with your actual API key
+  const [crimeData, setCrimeData] = useState([]);
 
   
 
@@ -40,6 +41,7 @@ const HereMaps = () => {
         script3.onload = initMap;
       };
     };
+    fetchCrimeData();
 
     return () => {
       // Clean up scripts when component unmounts
@@ -47,6 +49,30 @@ const HereMaps = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (map && crimeData.length > 0) {
+      console.log("Map and crime data are both available. Adding markers...");
+      // addCrimeMarkers(map, crimeData);
+      addMarkers(map,crimeData)
+    }
+  }, [map, crimeData]);
+
+  
+  
+  const fetchCrimeData = async () => {
+    try {
+      const response = await fetch(' http://localhost:3001/api/incidents'); // Replace with your actual API endpoint
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Fetched crime data:", data); // Log the fetched data
+      setCrimeData(data);
+    } catch (error) {
+      console.error('Error fetching crime data:', error);
+      setError('Failed to fetch crime data. Please try again later.');
+    }
+  };
   const initMap = () => {
     // Initialize the platform object
     const platform = new window.H.service.Platform({
@@ -68,9 +94,7 @@ const HereMaps = () => {
     );
 
     // Create the behaviors
-    const behavior = new window.H.mapevents.Behavior(
-      new window.H.mapevents.MapEvents(newMap)
-    );
+    new window.H.mapevents.Behavior(new window.H.mapevents.MapEvents(newMap));
 
     setMap(newMap);
 
@@ -104,10 +128,115 @@ const HereMaps = () => {
       }
     );
     // Add static markers for predefined locations
-    addStaticMarkers(newMap);
+    addMarkers(newMap);
+    // addStaticMarkers(newMap);
+    // addCrimeMarkers(newMap);
   };
 
-  const addStaticMarkers = (map) => {
+  
+
+  // const addStaticMarkers = (map) => {
+  //   const staticLocations = [
+  //     { lat: 19.1627725, lng: 74.8580243, name: "AHMEDNAGAR" },
+  //     { lat: 20.76181225, lng: 77.1921157, name: "AKOLA" },
+  //     { lat: 20.9316219, lng: 77.7588455, name: "AMRAVATI CITY" },
+  //     { lat: 21.1435696, lng: 78.9633643, name: "AMRAVATI RURAL" },
+  //     { lat: 18.9918442, lng: 75.9097840, name: "BEED" },
+  //     { lat: 21.1225869, lng: 79.7945090, name: "BHANDARA" },
+  //     { lat: 20.5628450, lng: 76.4086986, name: "BULDHANA" },
+  //     { lat: 20.0967555, lng: 79.5045475, name: "CHANDRAPUR" },
+  //     { lat: 19.8772630, lng: 75.3390241, name: "CHHATRAPATI SAMBHAJINAGAR CITY" },
+  //     { lat: 18.1698439, lng: 76.1179632, name: "DHARASHIV" },
+  //     { lat: 21.1305215, lng: 74.4900614, name: "DHULE" },
+  //     { lat: 19.7590704, lng: 80.1622807, name: "GADCHIROLI" },
+  //     { lat: 21.4552280, lng: 80.1962729, name: "GONDIA" },
+  //     { lat: 19.5431164, lng: 77.1739432, name: "HINGOLI" },
+  //     { lat: 20.8428827, lng: 75.5261246, name: "JALGAON" },
+  //     { lat: 19.9188330, lng: 75.8708599, name: "JALNA" },
+  //     { lat: 16.7028412, lng: 74.2405329, name: "KOLHAPUR" },
+  //     { lat: 18.3515908, lng: 76.7554236, name: "LATUR" },
+  //     { lat: 21.1498134, lng: 79.0820556, name: "NAGPUR CITY" },
+  //     { lat: 21.1382070, lng: 78.8107311, name: "NAGPUR RURAL" },
+  //     { lat: 19.0940088, lng: 77.4831922, name: "NANDED" },
+  //     { lat: 21.5141622, lng: 74.5405513, name: "NANDURBAR" },
+  //     { lat: 20.0112475, lng: 73.7902364, name: "NASHIK CITY" },
+  //     { lat: 20.4344190, lng: 73.5236340, name: "NASHIK RURAL" },
+  //     { lat: 19.0308262, lng: 73.0198537, name: "NAVI MUMBAI" },
+  //     { lat: 19.7572490, lng: 73.0931199, name: "PALGHAR" },
+  //     { lat: 19.2901981, lng: 76.6026443, name: "PARBHANI" },
+  //     { lat: 18.6279288, lng: 73.8009829, name: "PIMPRI-CHINCHWAD" },
+  //     { lat: 18.5213738, lng: 73.8545071, name: "PUNE CITY" },
+  //     { lat: 18.5431042, lng: 73.8222985, name: "PUNE RURAL" },
+  //     { lat: 18.4928092, lng: 73.1380710, name: "RAIGAD" },
+  //     { lat: 17.2826079, lng: 73.4569787, name: "RATNAGIRI" },
+  //     { lat: 16.8502534, lng: 74.5948885, name: "SANGLI" },
+  //     { lat: 17.6361289, lng: 74.2982781, name: "SATARA" },
+  //     { lat: 16.1357193, lng: 73.6522086, name: "SINDHUDURG" },
+  //     { lat: 17.6699734, lng: 75.9008118, name: "SOLAPUR CITY" },
+  //     { lat: 19.1761469, lng: 72.9683889, name: "THANE CITY" },
+  //     { lat: 20.8256232, lng: 78.6131455, name: "WARDHA" },
+  //     { lat: 20.2874178, lng: 77.2369655, name: "WASHIM" },
+  //     { lat: 20.3270469, lng: 78.1186870, name: "YAVATMAL" },
+  //   ];
+    
+    
+  
+  //   // Custom icon for static markers
+  //   const customIcon = {
+  //     iconUrl: 
+  //       'data:image/svg+xml;utf-8,\
+  //       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">\
+  //         <circle cx="12" cy="12" r="10" fill="red" />\
+  //         <circle cx="12" cy="12" r="5" fill="orange" />\
+  //       </svg>',
+  //     iconSize: { w: 24, h: 24 },
+  //   };
+    
+  
+  //   staticLocations.forEach((location) => {
+  //     const icon = new window.H.map.Icon(customIcon.iconUrl, customIcon.iconSize); // Create icon using custom size
+  //     const marker = new window.H.map.Marker({ lat: location.lat, lng: location.lng }, { icon }); // Use custom icon
+  
+  //     marker.setData(location.name);
+  //     marker.addEventListener("tap", (evt) => {
+  //       alert(`You clicked on: ${evt.target.getData()}`);
+  //     });
+  //     map.addObject(marker);
+  //   });
+  // };
+
+  // const addCrimeMarkers = (map) => {
+  //   console.log("Adding crime markers. Crime data:", crimeData);
+  //   const customIcon = {
+  //     iconUrl: 
+  //       'data:image/svg+xml;utf-8,\
+  //       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">\
+  //         <circle cx="12" cy="12" r="10" fill="blue" />\
+  //         <circle cx="12" cy="12" r="5" fill="red" />\
+  //       </svg>',
+  //     iconSize: { w: 24, h: 24 },
+  //   };
+
+  //   crimeData.forEach((crime) => {
+  //     const icon = new window.H.map.Icon(customIcon.iconUrl, customIcon.iconSize);
+  //     const marker = new window.H.map.Marker(
+  //       { lat: crime.location.latitude, lng: crime.location.longitude },
+  //       { icon }
+  //     );
+ 
+  //     marker.setData(crime);
+  //     marker.setData(crime.category);
+  //     marker.addEventListener("tap", (evt) => {
+  //       alert(`Crime category: ${evt.target.getData()}`);
+  //     });
+  //     map.addObject(marker);
+  //     console.log(`Added marker at ${crime.location.latitude}, ${crime.location.longitude}`); // Log each added marker
+  //   });
+  // };
+  
+
+  const addMarkers = (map, crimeData) => {
+    // Static locations
     const staticLocations = [
       { lat: 19.1627725, lng: 74.8580243, name: "AHMEDNAGAR" },
       { lat: 20.76181225, lng: 77.1921157, name: "AKOLA" },
@@ -150,11 +279,9 @@ const HereMaps = () => {
       { lat: 20.2874178, lng: 77.2369655, name: "WASHIM" },
       { lat: 20.3270469, lng: 78.1186870, name: "YAVATMAL" },
     ];
-    
-    
   
     // Custom icon for static markers
-    const customIcon = {
+    const staticIcon = {
       iconUrl: 
         'data:image/svg+xml;utf-8,\
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">\
@@ -163,17 +290,43 @@ const HereMaps = () => {
         </svg>',
       iconSize: { w: 24, h: 24 },
     };
-    
   
+    // Adding static markers
     staticLocations.forEach((location) => {
-      const icon = new window.H.map.Icon(customIcon.iconUrl, customIcon.iconSize); // Create icon using custom size
-      const marker = new window.H.map.Marker({ lat: location.lat, lng: location.lng }, { icon }); // Use custom icon
-  
+      const icon = new window.H.map.Icon(staticIcon.iconUrl, staticIcon.iconSize);
+      const marker = new window.H.map.Marker({ lat: location.lat, lng: location.lng }, { icon });
       marker.setData(location.name);
       marker.addEventListener("tap", (evt) => {
         alert(`You clicked on: ${evt.target.getData()}`);
       });
       map.addObject(marker);
+    });
+  
+    // Custom icon for crime markers
+    const crimeIcon = {
+      iconUrl: 
+        'data:image/svg+xml;utf-8,\
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">\
+          <circle cx="12" cy="12" r="10" fill="blue" />\
+          <circle cx="12" cy="12" r="5" fill="red" />\
+        </svg>',
+      iconSize: { w: 24, h: 24 },
+    };
+  
+    // Adding crime markers
+    crimeData.forEach((crime) => {
+      const icon = new window.H.map.Icon(crimeIcon.iconUrl, crimeIcon.iconSize);
+      const marker = new window.H.map.Marker(
+        { lat: crime.location.latitude, lng: crime.location.longitude },
+        { icon }
+      );
+  
+      marker.setData(crime.category); // Set crime category as data
+      marker.addEventListener("tap", (evt) => {
+        alert(`Crime category: ${evt.target.getData()}`);
+      });
+      map.addObject(marker);
+      console.log(`Added marker at ${crime.location.latitude}, ${crime.location.longitude}`); // Log each added marker
     });
   };
   

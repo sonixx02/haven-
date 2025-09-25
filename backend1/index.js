@@ -96,6 +96,18 @@ app.post('/api/toggleVerification/:id', async (req, res) => {
   }
 });
 
+// Define the incidents route
+app.get('/api/incidents', async (req, res) => {
+  try {
+    const incidents = await Complaint.find({}, 'location.latitude location.longitude category');
+    res.json(incidents);
+    console.log(incidents); // This logs the incidents to the console
+  } catch (error) {
+    console.error('Error fetching incidents:', error.message); // Log the error for debugging
+    res.status(500).json({ message: 'Error fetching incidents', error: error.message });
+  }
+});
+
 app.use('/api/users', userRoutes);
 app.use('/api/complaints', complaintRoutes);
 // MongoDB connection

@@ -49,8 +49,33 @@ Admin Side Features
 
 ![Uploading Screenshot 2024-09-28 141257[1].png…]()
 
+## 🏛️ Law Bot Feature
 
+We've added a powerful AI-powered Law Bot that helps users understand their legal rights and government support options.
 
+### Law Bot Features:
+- **AI-Powered Legal Assistance**: Uses Google Gemini AI to provide accurate legal information
+- **PDF-Based Knowledge**: Queries a comprehensive 402-page law document
+- **Real-time Responses**: Instant answers to legal questions
+- **Focused on Indian Laws**: Specialized in domestic violence, marriage laws, women's rights, cyber crimes, and more
+- **Simple Web Interface**: Easy-to-use chat interface for legal queries
+
+### Law Bot Setup:
+```bash
+cd law-bot
+npm install
+npm start
+```
+
+Access the Law Bot at: `http://localhost:3001`
+
+### Example Questions:
+- "What are my rights if my husband beats me?"
+- "What are the laws against cheating in marriage?"
+- "What are women's rights in India?"
+- "What are the laws for cyber crimes?"
+
+The Law Bot provides reliable legal information based solely on the law document, ensuring accurate and trustworthy responses for users seeking legal guidance.
 
 
 

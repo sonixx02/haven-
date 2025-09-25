@@ -102,7 +102,7 @@ const ComplaintCard = ({ complaint }) => {
         <p className="text-gray-600 mb-4">{description}</p>
         
         <div className="space-y-2 mb-4">
-          {location.latitude && location.longitude && (
+          {location && location.latitude && location.longitude && (
             <p className="flex items-center text-sm text-gray-500">
               <MapPin size={16} className="mr-2" />
               Lat: {location.latitude.toFixed(4)}, Long: {location.longitude.toFixed(4)}

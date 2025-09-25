@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApkaRakshak Law Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .chat-container {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot-message {
+            background: white;
+            border: 1px solid #dee2e6;
+            margin-right: auto;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: #007bff;
+        }
+
+        .send-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .examples h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .example-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .example-btn:hover {
+            background: #dee2e6;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .chat-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚖️ ApkaRakshak Law Bot</h1>
+            <p>Your AI Legal Assistant - Ask questions about Indian laws and get accurate answers</p>
+        </div>
+
+        <div class="chat-container">
+            <div id="status" class="status"></div>
+            
+            <div id="chatMessages" class="chat-messages">
+                <div class="message bot-message">
+                    <strong>Law Bot:</strong> Hello! I'm your legal assistant. I can help you with questions about Indian laws including women's rights, domestic violence, marriage laws, criminal laws, and more. What would you like to know?
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="questionInput" placeholder="Ask your legal question here..." maxlength="500">
+                <button id="sendBtn" class="send-btn">Send</button>
+            </div>
+
+            <div id="loading" class="loading">🤖 Thinking...</div>
+
+            <div class="examples">
+                <h3>💡 Try asking:</h3>
+                <button class="example-btn" onclick="askQuestion('What are my rights if my husband beats me?')">Domestic Violence Rights</button>
+                <button class="example-btn" onclick="askQuestion('What are the laws against cheating in marriage?')">Marriage Laws</button>
+                <button class="example-btn" onclick="askQuestion('What are women rights in India?')">Women's Rights</button>
+                <button class="example-btn" onclick="askQuestion('What are the laws for cyber crimes?')">Cyber Crime Laws</button>
+                <button class="example-btn" onclick="askQuestion('What are my rights if I am arrested?')">Arrest Rights</button>
+                <button class="example-btn" onclick="askQuestion('What are the laws for property disputes?')">Property Laws</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questionInput = document.getElementById('questionInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const loading = document.getElementById('loading');
+        const status = document.getElementById('status');
+
+        // Check server status on load
+        checkServerStatus();
+
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                if (data.status === 'OK' && data.pdfLoaded) {
+                    status.textContent = `✅ Connected - PDF loaded (${Math.round(data.contentLength/1000)}KB)`;
+                    status.className = 'status connected';
+                } else {
+                    status.textContent = '⚠️ Server connected but PDF not loaded';
+                    status.className = 'status error';
+                }
+            } catch (error) {
+                status.textContent = '❌ Server not connected - Please start the server';
+                status.className = 'status error';
+            }
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            if (isUser) {
+                messageDiv.innerHTML = `<strong>You:</strong> ${content}`;
+            } else {
+                messageDiv.innerHTML = `<strong>Law Bot:</strong> ${content.replace(/\n/g, '<br>')}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function askQuestion(question) {
+            if (!question.trim()) return;
+
+            // Add user message
+            addMessage(question, true);
+            
+            // Clear input and disable send button
+            questionInput.value = '';
+            sendBtn.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    addMessage(data.answer);
+                } else {
+                    addMessage(`Error: ${data.error || 'Failed to get response'}`);
+                }
+            } catch (error) {
+                addMessage(`Error: ${error.message}`);
+            } finally {
+                loading.style.display = 'none';
+                sendBtn.disabled = false;
+                questionInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', () => {
+            const question = questionInput.value.trim();
+            if (question) {
+                askQuestion(question);
+            }
+        });
+
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const question = questionInput.value.trim();
+                if (question) {
+                    askQuestion(question);
+                }
+            }
+        });
+
+        // Focus input on load
+        questionInput.focus();
+    </script>
+</body>
+</html>

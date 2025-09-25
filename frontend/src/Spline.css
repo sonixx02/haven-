@@ -1,0 +1,9 @@
+.spline-container {
+    position: relative;
+  }
+  
+  /* Hide the watermark */
+  .spline-watermark-class { /* Replace with the actual class or ID you find */
+    display: none !important;
+  }
+  

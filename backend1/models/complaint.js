@@ -11,7 +11,8 @@ userEmail:{type:String}
    },
   location: {
     latitude: { type: Number },
-    longitude: { type: Number }
+    longitude: { type: Number },
+    district: { type: String } // Add district field for filtering
   },
   geminiAnalysis: {
     imageDescription: { type: String },
